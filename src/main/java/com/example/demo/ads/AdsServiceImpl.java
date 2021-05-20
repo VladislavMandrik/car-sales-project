@@ -1,5 +1,7 @@
 package com.example.demo.ads;
 
+import com.example.demo.classification.Classification;
+import com.example.demo.classification.ClassificationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,56 +13,52 @@ public class AdsServiceImpl implements AdsService {
     private static final String EXCEPTION_MESSAGE = "Ad not found for this id :: ";
 
     @Autowired
-    AdsRepository repository;
+    AdsRepository adsRepository;
+    @Autowired
+    ClassificationsRepository classificationsRepository;
 
     @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public Page<Ad> findAllAdsByClassification(Long classificationId, Pageable pageable) {
+        return adsRepository.findAllByClassificationId(classificationId, pageable);
     }
 
     @Override
-    public Ad save(Ad ad) {
-        return repository.save(ad);
+    public Ad findAdByIdByClassification(Long id, Long classificationId) {
+        return adsRepository.findByIdAndClassificationId(id, classificationId)
+                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
+
+    }
+
+//    @Override
+//    public Ad findAdByCarNameByClassification(String carName, Long classificationId) {
+//        return adsRepository.findByCarNameAndClassificationId(carName, classificationId)
+//                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + carName));
+//    }
+
+    @Override
+    public Ad save(Long classificationId, Ad ad) {
+        Classification classification = classificationsRepository.findById(classificationId)
+                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + classificationId));
+        ad.setClassification(classification);
+        return adsRepository.save(ad);
     }
 
     @Override
-    public Ad update(Long id, Ad ad) {
-        Ad adInDb = repository.findById(id).orElseThrow(() ->
+    public Ad update(Long classificationId, Long id, Ad ad) {
+        Ad adInDb = adsRepository.findByIdAndClassificationId(id, classificationId).orElseThrow(() ->
                 new RuntimeException(EXCEPTION_MESSAGE + id));
-
-//        if (ad.getCar() != null) {
-//            adInDb.setCar(ad.getCar());
-//        }
-//
-//        if (ad.getPrice() != null) {
-//            adInDb.setPrice(ad.getPrice());
-//        }
-//
-//        if (ad.getYear() != null) {
-//            adInDb.setYear(ad.getYear());
-//        }
-//
-//        if (ad.getDescription() != null) {
-//            adInDb.setDescription(ad.getDescription());
-//        }
-
-        return repository.save(adInDb);
+        adInDb.setCarName(ad.getCarName());
+        adInDb.setPrice(ad.getPrice());
+        adInDb.setYear(ad.getYear());
+        adInDb.setDescription(ad.getDescription());
+        System.out.println(adInDb);
+        return adsRepository.save(adInDb);
     }
 
     @Override
-    public Page<Ad> findAllAd(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-    @Override
-    public Ad findAdById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException
-                (EXCEPTION_MESSAGE + id));
-    }
-
-    @Override
-    public Ad findAdByPrice(Integer price) {
-        return repository.findByPrice(price)
-                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + price));
+    public void delete(Long classificationId, Long id) {
+        Ad ad = adsRepository.findByIdAndClassificationId(id, classificationId)
+                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
+        adsRepository.delete(ad);
     }
 }

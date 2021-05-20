@@ -5,16 +5,15 @@ import org.springframework.data.domain.Pageable;
 
 public interface AdsService {
 
-    void delete(Long id);
+    Page<Ad> findAllAdsByClassification(Long classificationId, Pageable pageable);
 
-    Ad update(Long id, Ad ad);
+    Ad findAdByIdByClassification(Long id, Long classificationId);
 
-    Ad save(Ad ad);
+//    Ad findAdByCarNameByClassification(String carName, Long classificationId);
 
-    Page<Ad> findAllAd(Pageable pageable);
+    Ad save(Long ClassificationId, Ad ad);
 
-    Ad findAdById(Long id);
+    Ad update(Long ClassificationId, Long id, Ad ad);
 
-    Ad findAdByPrice(Integer price);
-
+    void delete(Long ClassificationId, Long id);
 }

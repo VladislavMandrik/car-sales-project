@@ -5,15 +5,14 @@ import org.springframework.data.domain.Pageable;
 
 public interface ClassificationsService {
 
-    void delete(Long id);
-
-    Classification update(Long id, Classification classification);
-
-    Classification save(Classification classification);
-
     Page<Classification> findAllClassification(Pageable pageable);
 
     Classification findClassificationById(Long id);
 
+    Classification save(Classification classification);
+
+    Classification update(Long id, Classification classification);
+
+    void delete(Long id);
 }
 

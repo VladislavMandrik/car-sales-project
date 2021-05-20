@@ -15,40 +15,41 @@ public class AdsController {
     @Autowired
     private AdsService service;
 
-    @GetMapping("/ads")
-    public ResponseEntity<Page<Ad>> getAllAd(
-            @PageableDefault(sort = "id", size = 3) Pageable pageable) {
-        return ResponseEntity.ok().body(service.findAllAd(pageable));
+    @GetMapping("/classifications/{classificationId}/ads")
+    public ResponseEntity<Page<Ad>> getAllAd(@PathVariable Long classificationId,
+                                             @PageableDefault(sort = "id", size = 3) Pageable pageable) {
+        return ResponseEntity.ok().body(service.findAllAdsByClassification(classificationId, pageable));
     }
 
-    @GetMapping("/ads/{id}")
-    public ResponseEntity<Ad> getAdById(@PathVariable(value = "id") Long id) {
-//        Book book = service.findBookById(id);
-        return ResponseEntity.ok().body(service.findAdById(id));
+    @GetMapping("/classifications/{classificationId}/ads/{id}")
+    public ResponseEntity<Ad> getAdById(@PathVariable(value = "classificationId") Long classificationId,
+                                        @PathVariable(value = "id") Long id) {
+        return ResponseEntity.ok().body(service.findAdByIdByClassification(id, classificationId));
     }
 
-    @GetMapping("/ads/{price}")
-    public ResponseEntity<Ad> getBookByPrice(@PathVariable(value = "price") Integer price) {
-//        Book book = service.findBookByName(name);
-        return ResponseEntity.ok().body(service.findAdByPrice(price));
+//    @GetMapping("/classifications/{classificationId}/ads/{carName}")
+//    public ResponseEntity<Ad> getAdByCarName(@PathVariable(value = "classificationId") Long classificationId,
+//                                             @PathVariable(value = "carName") String carName) {
+//        return ResponseEntity.ok().body(service.findAdByCarNameByClassification(carName, classificationId));
+//    }
+
+    @PostMapping("/classifications/{classificationId}/ads")
+    public ResponseEntity<Ad> createAd(@PathVariable Long classificationId,
+                                       @RequestBody Ad ad) {
+        return ResponseEntity.ok().body(service.save(classificationId, ad));
     }
 
-    @PostMapping("/ads")
-    public ResponseEntity<Ad> createAd(@RequestBody Ad ad) {
-        return ResponseEntity.ok().body(service.save(ad));
+    @PutMapping("/classifications/{classificationId}/ads/{id}")
+    public ResponseEntity<Ad> updateAd(@PathVariable(value = "classificationId") Long classificationId,
+                                       @PathVariable(value = "id") Long id,
+                                       @RequestBody Ad ad) {
+        return ResponseEntity.ok(service.update(classificationId, id, ad));
     }
 
-    @PutMapping("/ads/{id}")
-    public ResponseEntity<Ad> updateAd(
-            @PathVariable Long id,
-            @RequestBody Ad ad) {
-//        Book updatedBook = service.update(id, book);
-        return ResponseEntity.ok(service.update(id, ad));
-    }
-
-    @DeleteMapping("/ads/{id}")
-    public ResponseEntity<Void> deleteAd(@PathVariable(value = "id") Long id) {
-        service.delete(id);
+    @DeleteMapping("/classifications/{classificationId}/ads/{id}")
+    public ResponseEntity<?> deleteAd(@PathVariable(value = "classificationId") Long classificationId,
+                                      @PathVariable(value = "id") Long id) {
+        service.delete(classificationId, id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 }

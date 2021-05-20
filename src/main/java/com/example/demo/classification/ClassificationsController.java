@@ -23,7 +23,6 @@ public class ClassificationsController {
 
     @GetMapping("/classifications/{id}")
     public ResponseEntity<Classification> getClassificationById(@PathVariable(value = "id") Long id) {
-//        Book book = service.findBookById(id);
         return ResponseEntity.ok().body(service.findClassificationById(id));
     }
 
@@ -39,15 +38,13 @@ public class ClassificationsController {
     }
 
     @PutMapping("/classifications/{id}")
-    public ResponseEntity<Classification> updateClassification(
-            @PathVariable Long id,
-            @RequestBody Classification classification) {
-//        Book updatedBook = service.update(id, book);
+    public ResponseEntity<Classification> updateClassification(@PathVariable Long id,
+                                                               @RequestBody Classification classification) {
         return ResponseEntity.ok(service.update(id, classification));
     }
 
     @DeleteMapping("/classifications/{id}")
-    public ResponseEntity<Void> deleteClassification(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> deleteClassification(@PathVariable(value = "id") Long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }

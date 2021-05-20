@@ -14,8 +14,14 @@ public class ClassificationsServiceImpl implements ClassificationsService {
     ClassificationsRepository repository;
 
     @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public Page<Classification> findAllClassification(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    @Override
+    public Classification findClassificationById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new RuntimeException
+                (EXCEPTION_MESSAGE + id));
     }
 
     @Override
@@ -27,6 +33,7 @@ public class ClassificationsServiceImpl implements ClassificationsService {
     public Classification update(Long id, Classification classification) {
         Classification classificationInDb = repository.findById(id).orElseThrow(() ->
                 new RuntimeException(EXCEPTION_MESSAGE + id));
+        classificationInDb.setAppoitment(classification.getAppoitment());
 
 //        if (ad.getCar() != null) {
 //            adInDb.setCar(ad.getCar());
@@ -48,14 +55,10 @@ public class ClassificationsServiceImpl implements ClassificationsService {
     }
 
     @Override
-    public Page<Classification> findAllClassification(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-    @Override
-    public Classification findClassificationById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException
-                (EXCEPTION_MESSAGE + id));
+    public void delete(Long id) {
+        Classification classification = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
+        repository.delete(classification);
     }
 
 //    @Override
