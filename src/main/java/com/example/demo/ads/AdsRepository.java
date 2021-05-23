@@ -15,5 +15,7 @@ public interface AdsRepository extends JpaRepository<Ad, Long> {
 
     Optional<Ad> findByIdAndClassificationId(Long id, Long classificationId);
 
-//    List<Ad> findByIdAndPriceIn(List<String> classifications, List<String> ads, List<String> prices);
+    List<Ad> findByClassificationIdAndPriceBetween(Long classificationId, Integer lowerPrice, Integer higherPrice);
+
+    List<Ad> findByClassificationIdAndYearIn(Long classificationId, List<String> year);
 }

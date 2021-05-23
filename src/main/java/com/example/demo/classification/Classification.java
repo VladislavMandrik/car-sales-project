@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode(callSuper = true)
 public class Classification extends BasicEntity {
 
+    @Column(name = "appoitment", nullable = false)
     @NotBlank(message = "Appoitment is mandatory")
     private String appoitment;
 }

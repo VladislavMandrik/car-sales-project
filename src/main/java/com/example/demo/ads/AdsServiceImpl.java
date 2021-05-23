@@ -25,10 +25,21 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public Ad findAdByIdByClassification(Long id, Long classificationId) {
+    public Ad findAdByIdAndClassificationId(Long id, Long classificationId) {
         return adsRepository.findByIdAndClassificationId(id, classificationId)
                 .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
 
+    }
+
+    @Override
+    public List<Ad> findAdByClassificationIdAndPriceBetween(Long classificationId, Integer lowerPrice,
+                                                            Integer higherPrice) {
+        return adsRepository.findByClassificationIdAndPriceBetween(classificationId, lowerPrice, higherPrice);
+    }
+
+    @Override
+    public List<Ad> findAdByClassificationIdAndYearIn(Long classificationId, List<String> year) {
+        return adsRepository.findByClassificationIdAndYearIn(classificationId, year);
     }
 
     @Override
@@ -57,11 +68,4 @@ public class AdsServiceImpl implements AdsService {
                 .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
         adsRepository.delete(ad);
     }
-
-//    @Override
-//    public Ad findAdByPriceByClassification(Integer price, Long classificationId) {
-//        return adsRepository.findByIdAndPriceIn(List <String> classifications, )
-//                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + price));
-//
-//    }
 }

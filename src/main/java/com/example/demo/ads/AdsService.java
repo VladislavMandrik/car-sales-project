@@ -3,13 +3,18 @@ package com.example.demo.ads;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface AdsService {
 
     Page<Ad> findAllAdsByClassification(Long classificationId, Pageable pageable);
 
-    Ad findAdByIdByClassification(Long id, Long classificationId);
+    Ad findAdByIdAndClassificationId(Long id, Long classificationId);
 
-//    Ad findAdByPriceByClassification(Integer price, Long classificationId);
+    List<Ad> findAdByClassificationIdAndPriceBetween(Long classificationId, Integer lowerPrice,
+                                                     Integer higherPrice);
+
+    List<Ad> findAdByClassificationIdAndYearIn(Long classificationId, List<String> year);
 
     Ad save(Long ClassificationId, Ad ad);
 
