@@ -22,16 +22,10 @@ public class AdsController {
     }
 
     @GetMapping("/classifications/{classificationId}/ads/{id}")
-    public ResponseEntity<Ad> getAdById(@PathVariable(value = "classificationId") Long classificationId,
-                                        @PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok().body(service.findAdByIdByClassification(id, classificationId));
+        public ResponseEntity<Ad> getAdById(@PathVariable(value = "classificationId") Long classificationId,
+                @PathVariable(value = "id") Long id) {
+            return ResponseEntity.ok().body(service.findAdByIdByClassification(id, classificationId));
     }
-
-//    @GetMapping("/classifications/{classificationId}/ads/{carName}")
-//    public ResponseEntity<Ad> getAdByCarName(@PathVariable(value = "classificationId") Long classificationId,
-//                                             @PathVariable(value = "carName") String carName) {
-//        return ResponseEntity.ok().body(service.findAdByCarNameByClassification(carName, classificationId));
-//    }
 
     @PostMapping("/classifications/{classificationId}/ads")
     public ResponseEntity<Ad> createAd(@PathVariable Long classificationId,
@@ -52,4 +46,10 @@ public class AdsController {
         service.delete(classificationId, id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
+
+//    @GetMapping("/classifications/{classificationId}/ads/{price}")
+//    public ResponseEntity<Ad> getAdByPriceIn(@PathVariable(value = "classificationId") Long classificationId,
+//                                        @PathVariable(value = "price") Integer price) {
+//        return ResponseEntity.ok().body(service.findAdByPriceByClassification(price, classificationId));
+//    }
 }

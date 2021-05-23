@@ -35,22 +35,6 @@ public class ClassificationsServiceImpl implements ClassificationsService {
                 new RuntimeException(EXCEPTION_MESSAGE + id));
         classificationInDb.setAppoitment(classification.getAppoitment());
 
-//        if (ad.getCar() != null) {
-//            adInDb.setCar(ad.getCar());
-//        }
-//
-//        if (ad.getPrice() != null) {
-//            adInDb.setPrice(ad.getPrice());
-//        }
-//
-//        if (ad.getYear() != null) {
-//            adInDb.setYear(ad.getYear());
-//        }
-//
-//        if (ad.getDescription() != null) {
-//            adInDb.setDescription(ad.getDescription());
-//        }
-
         return repository.save(classificationInDb);
     }
 
@@ -61,9 +45,4 @@ public class ClassificationsServiceImpl implements ClassificationsService {
         repository.delete(classification);
     }
 
-//    @Override
-//    public Ad findAdByPrice(Integer price) {
-//        return repository.findByPrice(price)
-//                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + price));
-//    }
 }

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdsServiceImpl implements AdsService {
 
@@ -28,12 +30,6 @@ public class AdsServiceImpl implements AdsService {
                 .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
 
     }
-
-//    @Override
-//    public Ad findAdByCarNameByClassification(String carName, Long classificationId) {
-//        return adsRepository.findByCarNameAndClassificationId(carName, classificationId)
-//                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + carName));
-//    }
 
     @Override
     public Ad save(Long classificationId, Ad ad) {
@@ -61,4 +57,11 @@ public class AdsServiceImpl implements AdsService {
                 .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
         adsRepository.delete(ad);
     }
+
+//    @Override
+//    public Ad findAdByPriceByClassification(Integer price, Long classificationId) {
+//        return adsRepository.findByIdAndPriceIn(List <String> classifications, )
+//                .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + price));
+//
+//    }
 }

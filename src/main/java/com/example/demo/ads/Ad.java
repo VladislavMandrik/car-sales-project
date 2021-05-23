@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Entity
@@ -13,12 +14,12 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 public class Ad extends BasicEntity {
 
-    @Column(name = "car_name", nullable = false)
+    @NotBlank(message = "Car name is mandatory")
     private String carName;
     @Column(name = "price", nullable = false)
     private Integer price;
-    @Column(name = "year", nullable = false)
-    private Integer year;
+    @NotBlank(message = "Year is mandatory")
+    private String year;
     @Column(name = "description", nullable = false)
     private String description;
 

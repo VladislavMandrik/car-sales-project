@@ -9,7 +9,7 @@ public interface AdsService {
 
     Ad findAdByIdByClassification(Long id, Long classificationId);
 
-//    Ad findAdByCarNameByClassification(String carName, Long classificationId);
+//    Ad findAdByPriceByClassification(Integer price, Long classificationId);
 
     Ad save(Long ClassificationId, Ad ad);
 

@@ -26,12 +26,6 @@ public class ClassificationsController {
         return ResponseEntity.ok().body(service.findClassificationById(id));
     }
 
-//    @GetMapping("/classifications/{price}")
-//    public ResponseEntity<Ad> getBookByPrice(@PathVariable(value = "price") Integer price) {
-//        Book book = service.findBookByName(name);
-//        return ResponseEntity.ok().body(service.findAdByPrice(price));
-//    }
-
     @PostMapping("/classifications")
     public ResponseEntity<Classification> createClassification(@RequestBody Classification classification) {
         return ResponseEntity.ok().body(service.save(classification));
