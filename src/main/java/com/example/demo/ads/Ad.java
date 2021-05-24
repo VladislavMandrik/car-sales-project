@@ -4,6 +4,8 @@ import com.example.demo.common.BasicEntity;
 import com.example.demo.classification.Classification;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Entity
 @Table(name = "ads")
+@SQLDelete(sql = "UPDATE ads SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 @EqualsAndHashCode(callSuper = true)
 public class Ad extends BasicEntity {
 

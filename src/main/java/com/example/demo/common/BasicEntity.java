@@ -12,4 +12,5 @@ public abstract class BasicEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
+    private boolean deleted = Boolean.FALSE;
 }
