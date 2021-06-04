@@ -56,12 +56,12 @@ class AdsServiceImplTest {
         when(adsRepository.findByIdAndClassificationId(AD_ID, CLASSIFICATION_ID))
                 .thenReturn(Optional.of(expectedAd));
 
-        adsService.findAdByIdAndClassificationId(AD_ID, CLASSIFICATION_ID);
+        Ad resultAd = adsService.findAdByIdAndClassificationId(AD_ID, CLASSIFICATION_ID);
 
-        assertEquals(AD_ID, expectedAd.getId());
-        assertEquals(CAR_NAME, expectedAd.getCarName());
-        assertEquals(PRICE, expectedAd.getPrice());
-        assertEquals(YEAR, expectedAd.getYear());
-        assertEquals(DESCRIPTION, expectedAd.getDescription());
+        assertEquals(expectedAd.getId(), resultAd.getId());
+        assertEquals(expectedAd.getCarName(), resultAd.getCarName());
+        assertEquals(expectedAd.getPrice(), resultAd.getPrice());
+        assertEquals(expectedAd.getYear(), resultAd.getYear());
+        assertEquals(expectedAd.getDescription(), resultAd.getDescription());
     }
 }

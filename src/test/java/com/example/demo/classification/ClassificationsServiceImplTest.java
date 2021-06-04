@@ -29,12 +29,14 @@ class ClassificationsServiceImplTest {
     }
 
     private static final Long CLASSIFICATION_ID = 1L;
-    private static final String APPOITMENT = "Passenger cars";
+    private static final Boolean DELETED = false;
+    private static final String APPOINTMENT = "Passenger cars";
 
     private static Classification createClassification() {
         Classification classification = new Classification();
         classification.setId(CLASSIFICATION_ID);
-        classification.setAppoitment(APPOITMENT);
+        classification.setDeleted(DELETED);
+        classification.setAppointment(APPOINTMENT);
 
         return classification;
     }
@@ -45,10 +47,11 @@ class ClassificationsServiceImplTest {
         when(classificationsRepository.findById(CLASSIFICATION_ID))
                 .thenReturn(Optional.of(expectedClassification));
 
-        classificationsService.findClassificationById(CLASSIFICATION_ID);
+        Classification resultClassification = classificationsService.findClassificationById(CLASSIFICATION_ID);
 
-        assertEquals(CLASSIFICATION_ID, expectedClassification.getId());
-        assertEquals(APPOITMENT, expectedClassification.getAppoitment());
+        assertEquals(expectedClassification.getId(), resultClassification.getId());
+        assertEquals(expectedClassification.getDeleted(), resultClassification.getDeleted());
+        assertEquals(expectedClassification.getAppointment(), resultClassification.getAppointment());
     }
 
 }
