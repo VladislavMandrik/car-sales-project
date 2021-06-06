@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ClassificationsService {
 
-    Page<Classification> findAllClassification(Pageable pageable);
+    Page<Classification> findAll(String appointment, Pageable pageable);
 
     Classification findClassificationById(Long id);
 

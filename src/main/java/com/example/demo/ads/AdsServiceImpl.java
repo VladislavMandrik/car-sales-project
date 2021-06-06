@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class AdsServiceImpl implements AdsService {
 
@@ -20,7 +18,19 @@ public class AdsServiceImpl implements AdsService {
     ClassificationsRepository classificationsRepository;
 
     @Override
-    public Page<Ad> findAllAdsByClassification(Long classificationId, Pageable pageable) {
+    public Page<Ad> findAll(Long classificationId, String carName, Integer price,
+                            Pageable pageable) {
+
+        if (carName == null & price != null) {
+            return adsRepository.findAllByClassificationIdAndPrice(classificationId, price, pageable);
+        }
+        if (carName != null & price == null) {
+            return adsRepository.findAllByClassificationIdAndCarName(classificationId, carName, pageable);
+        }
+        if (carName != null & price != null) {
+            return adsRepository.findAllByClassificationIdAndCarNameAndPrice(classificationId,
+                    carName, price, pageable);
+        }
         return adsRepository.findAllByClassificationId(classificationId, pageable);
     }
 
@@ -28,18 +38,6 @@ public class AdsServiceImpl implements AdsService {
     public Ad findAdByIdAndClassificationId(Long id, Long classificationId) {
         return adsRepository.findByIdAndClassificationId(id, classificationId)
                 .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
-
-    }
-
-    @Override
-    public List<Ad> findAdByClassificationIdAndPriceBetween(Long classificationId, Integer lowerPrice,
-                                                            Integer higherPrice) {
-        return adsRepository.findByClassificationIdAndPriceBetween(classificationId, lowerPrice, higherPrice);
-    }
-
-    @Override
-    public List<Ad> findAdByClassificationIdAndYearIn(Long classificationId, List<String> year) {
-        return adsRepository.findByClassificationIdAndYearIn(classificationId, year);
     }
 
     @Override

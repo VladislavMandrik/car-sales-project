@@ -3,11 +3,14 @@ package com.example.demo.classification;
 import com.example.demo.common.BasicEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Data
 @Entity
@@ -17,7 +20,7 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode(callSuper = true)
 public class Classification extends BasicEntity {
 
-    @Column(name = "appoitment", nullable = false)
-    @NotBlank(message = "Appoitment is mandatory")
-    private String appoitment;
+    @Column(name = "appointment", nullable = false)
+    @NotBlank(message = "Appointment is mandatory")
+    private String appointment;
 }

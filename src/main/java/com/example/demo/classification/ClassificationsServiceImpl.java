@@ -1,10 +1,12 @@
 package com.example.demo.classification;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class ClassificationsServiceImpl implements ClassificationsService {
 
@@ -14,8 +16,12 @@ public class ClassificationsServiceImpl implements ClassificationsService {
     ClassificationsRepository repository;
 
     @Override
-    public Page<Classification> findAllClassification(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<Classification> findAll(String appointment, Pageable pageable) {
+        if (appointment == null) {
+            return repository.findAll(pageable);
+        } else {
+            return repository.findAllByAppointment(appointment, pageable);
+        }
     }
 
     @Override
@@ -33,8 +39,7 @@ public class ClassificationsServiceImpl implements ClassificationsService {
     public Classification update(Long id, Classification classification) {
         Classification classificationInDb = repository.findById(id).orElseThrow(() ->
                 new RuntimeException(EXCEPTION_MESSAGE + id));
-        classificationInDb.setAppoitment(classification.getAppoitment());
-
+        classificationInDb.setAppointment(classification.getAppointment());
         return repository.save(classificationInDb);
     }
 
@@ -44,5 +49,4 @@ public class ClassificationsServiceImpl implements ClassificationsService {
                 .orElseThrow(() -> new RuntimeException(EXCEPTION_MESSAGE + id));
         repository.delete(classification);
     }
-
 }

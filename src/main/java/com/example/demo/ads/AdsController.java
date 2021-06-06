@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -18,32 +17,19 @@ public class AdsController {
     @Autowired
     private AdsService service;
 
-    @GetMapping("/classifications/{classificationId}/ads")
+    @GetMapping("classifications/{classificationId}/ads")
     public ResponseEntity<Page<Ad>> getAllAd(@PathVariable Long classificationId,
+                                             @RequestParam(required = false) String carName,
+                                             @RequestParam(required = false) Integer price,
                                              @PageableDefault(sort = "id", size = 3) Pageable pageable) {
-        return ResponseEntity.ok().body(service.findAllAdsByClassification(classificationId, pageable));
+
+        return ResponseEntity.ok().body(service.findAll(classificationId, carName, price, pageable));
     }
 
     @GetMapping("/classifications/{classificationId}/ads/{id}")
     public ResponseEntity<Ad> getAdById(@PathVariable(value = "classificationId") Long classificationId,
                                         @PathVariable(value = "id") Long id) {
         return ResponseEntity.ok().body(service.findAdByIdAndClassificationId(id, classificationId));
-    }
-
-    @GetMapping("/classifications/{classificationId}/ads-price")
-    public ResponseEntity<List<Ad>> getAdByPriceBetween
-            (@PathVariable(value = "classificationId") Long classificationId,
-             @RequestParam(value = "lowerPrice") Integer lowerPrice,
-             @RequestParam(value = "higherPrice") Integer higherPrice) {
-        return ResponseEntity.ok().body(service.findAdByClassificationIdAndPriceBetween(classificationId,
-                lowerPrice, higherPrice));
-    }
-
-    @GetMapping("/classifications/{classificationId}/ads-year")
-    public ResponseEntity<List<Ad>> getAdByPriceIn
-            (@PathVariable(value = "classificationId") Long classificationId,
-             @RequestParam(value = "year") List<String> year) {
-        return ResponseEntity.ok().body(service.findAdByClassificationIdAndYearIn(classificationId, year));
     }
 
     @PostMapping("/classifications/{classificationId}/ads")
