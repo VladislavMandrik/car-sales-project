@@ -38,7 +38,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.mapstruct:mapstruct:1.2.0.Final'
     implementation group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
-    runtimeOnly 'com.h2database:h2:1.4.200'
+    runtime('org.postgresql:postgresql')
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.assertj:assertj-core:3.12.2'
     testImplementation 'org.mockito:mockito-core:2.28.2'

@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,13 +22,23 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
     @Autowired
     private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
+    @Value("${credentials.admin.login}")
+    private String adminLogin;
+    @Value("${credentials.admin.password}")
+    private String adminPassword;
+
+    @Value("${credentials.user.login}")
+    private String userLogin;
+    @Value("${credentials.user.password}")
+    private String userPassword;
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.inMemoryAuthentication().withUser("user")
-                .password(passwordEncoder().encode("password")).roles("USER")
-                .and().withUser("admin")
-                .password(passwordEncoder().encode("admin")).roles("ADMIN");
+        auth.inMemoryAuthentication().withUser(userLogin)
+                .password(passwordEncoder().encode(userPassword)).roles("USER")
+                .and().withUser(adminLogin)
+                .password(passwordEncoder().encode(adminPassword)).roles("ADMIN");
     }
 
     @Override

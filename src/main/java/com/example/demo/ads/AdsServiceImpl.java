@@ -2,20 +2,19 @@ package com.example.demo.ads;
 
 import com.example.demo.classification.Classification;
 import com.example.demo.classification.ClassificationsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class AdsServiceImpl implements AdsService {
 
     private static final String EXCEPTION_MESSAGE = "Ad not found for this id :: ";
 
-    @Autowired
-    AdsRepository adsRepository;
-    @Autowired
-    ClassificationsRepository classificationsRepository;
+    private final AdsRepository adsRepository;
+    private final ClassificationsRepository classificationsRepository;
 
     @Override
     public Page<Ad> findAll(Long classificationId, String carName, Integer price,
